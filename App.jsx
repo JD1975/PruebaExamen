@@ -9,7 +9,7 @@ import { useWindowDimensions } from 'react-native';
 
 
 
-const apiKey = '491a4b90071240189b5c1100ea2b3952';
+const apiKey = '6eb2aa7b03df49218171dc0c92d0b78d';
 
 const HomeScreen = ({ navigation }) => {
   const [searchQuery, setSearchQuery] = useState('');
