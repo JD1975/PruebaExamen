@@ -7,8 +7,6 @@ import {LinearGradient} from 'expo-linear-gradient';
 import HTML from 'react-native-render-html';
 import { useWindowDimensions } from 'react-native';
 
-
-
 const apiKey = '6eb2aa7b03df49218171dc0c92d0b78d';
 
 const HomeScreen = ({ navigation }) => {
@@ -36,11 +34,14 @@ const HomeScreen = ({ navigation }) => {
   const handleSearch = () => {
     fetchDataReceta();
   };
+  
 
   return (
+    
     <View style={styles.container}>
-
       <View style={styles.header}>
+        <Text style={styles.title}>TheKitchen</Text>
+
         <TextInput
           style={styles.input}
           onChangeText={text => setSearchQuery(text)}
@@ -97,6 +98,8 @@ const RecipeDetailScreen = ({ route }) => {
   }, []);
 
   const { width: windowWidth } = useWindowDimensions();
+  
+
   return (
     <LinearGradient
     colors= {['#DDD0D7', '#FFFFFF']} 
@@ -104,7 +107,13 @@ const RecipeDetailScreen = ({ route }) => {
     >
     <ScrollView style={styles.containerScroll}>
       {recipeDetails && (
+        
         <View style={styles.recipeDetails}>
+
+          <View style={styles.header}>
+            <Text style={styles.title}>TheKitchen</Text>
+          </View>
+       
           <Image source={{ uri: recipeDetails.image }} style={styles.recipeImageDetails} />
           <Text style={styles.recipeDetailTitle}>{recipeDetails.title}</Text>
           <Text style={styles.recipeDetailText}>Ingredientes:</Text>
@@ -112,11 +121,11 @@ const RecipeDetailScreen = ({ route }) => {
             <Text key={ingredient.id}>{ingredient.original}</Text>
           ))} */}
           {recipeDetails.extendedIngredients.map((ingredient, index) => (
-            <Text key={`${ingredient.id}-${index}`}>{ingredient.original}</Text>
+            <Text style={styles.ingredients} key={`${ingredient.id}-${index}`}>{ingredient.original}</Text>
           ))}
 
           <Text style={styles.recipeDetailText}>Instrucciones:</Text>
-          <HTML source={{ html: recipeDetails.instructions }} contentWidth={windowWidth} />
+          <HTML source={{ html: recipeDetails.instructions }} contentWidth={windowWidth} style={{paddingLeft: 10}} />
         </View>
       )}
     </ScrollView>
@@ -128,28 +137,20 @@ const RecipeDetailScreen = ({ route }) => {
 const Stack = createStackNavigator();
 
 const App = () => {
+ 
+  
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="TheKitchen" component={HomeScreen}  options={{
-      title: 'The Kitchen',
-      headerStyle: {
-        backgroundColor: '#40434C', // Cambia el color de fondo del encabezado
-      },
-      headerTintColor: '#fff', // Cambia el color del texto del encabezado
-      headerTitleStyle: {
-        fontWeight: 'bold',
-      },
-    }}/>
+      <Stack.Screen
+          name="TheKitchen"
+          component={HomeScreen}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen name="RecipeDetail" component={RecipeDetailScreen} options={{
       title: 'RecipeDetail',
-      headerStyle: {
-        backgroundColor: '#40434C', // Cambia el color de fondo del encabezado
-      },
-      headerTintColor: '#fff', // Cambia el color del texto del encabezado
-      headerTitleStyle: {
-        fontWeight: 'bold',
-      },
+      headerShown: false 
+      
     }}/>
       </Stack.Navigator>
     </NavigationContainer>
@@ -171,6 +172,13 @@ const styles = StyleSheet.create({
   paddingTop: 30,
   borderBottomLeftRadius: 25,
   borderBottomRightRadius: 25,
+  },
+  title: {
+  marginBottom: 30,
+  color: 'white',
+  fontSize: 20,
+  paddingTop: 20,
+  fontWeight: 'bold',
   },
   input: {
     height: 40,
@@ -219,33 +227,42 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 
-  // Details part
+  //! DETAILS PART
+  
   recipeImageDetails: {
     width: '100%',
-    height: 300,
+    height: 250,
     // marginRight: 10,
     borderRadius: 300,
     marginBottom:20,
+    marginTop:20,
   },
   recipeDetails: {
     flex: 1,
     width: '100%',
-    padding: 10,
+    // padding: 10,
     // backgroundColor: 'gray'
+
   },
   recipeDetailTitle: {
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 10,
+    paddingLeft: 10,
+
   },
   recipeDetailText: {
     fontSize: 16,
     fontWeight: 'bold',
     marginTop: 10,
+    paddingLeft: 10,
+  },
+  ingredients: {
+    fontSize: 14,
+    paddingLeft: 10,
   },
   containerScroll:{
     flex: 1,
-
   }
 });
 
